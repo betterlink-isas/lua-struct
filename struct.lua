@@ -24,6 +24,16 @@ local unpack = table.unpack or _G.unpack
 
 local struct = {}
 
+math.frexp = math.frexp or function(x)
+    if x == 0 then return 0, 0 end
+    local e = math.floor(math.log(math.abs(x)) / math.log(2) + 1)
+    return x / 2 ^ e, e
+end
+
+math.ldexp = math.ldexp or function(m, e)
+    return m * 2 ^ e
+end
+
 function struct.pack(format, ...)
   local stream = {}
   local vars = {...}
